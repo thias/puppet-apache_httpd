@@ -90,7 +90,7 @@ define apache_httpd (
     if $::operatingsystem == 'RedHat' and $::operatingsystemrelease < 6 {
         # We can't 'ensure => absent' or it would reappear with updates
         apache_httpd::file { 'proxy_ajp.conf':
-            source => 'puppet:///modules/apache_httpd/proxy_ajp.conf',
+            source => "puppet:///modules/${module_name}/proxy_ajp.conf",
         }
     } else {
         # Just in case we have updated from RHEL5
@@ -101,14 +101,14 @@ define apache_httpd (
 
     # Install extra file to disable TRACE and TRACK methods
     apache_httpd::file { 'trace.inc':
-        source => 'puppet:///modules/apache_httpd/trace.inc',
+        source => "puppet:///modules/${module_name}/trace.inc",
     }
 
     # Change the original welcome condition, since our default has the index
     # return 404 instead of 403.
     if $welcome {
         apache_httpd::file { 'welcome.conf':
-            source => 'puppet:///modules/apache_httpd/welcome.conf',
+            source => "puppet:///modules/${module_name}/welcome.conf",
         }
     } else {
         apache_httpd::file { 'welcome.conf':
