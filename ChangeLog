@@ -1,3 +1,6 @@
+2013-04-19 - 0.4.1
+* Use @varname syntax in templates to silence puppet 3.2 warnings.
+
 2013-03-08 - 0.4.0
 * Split module out to its own repo.
 * Update README and switch to markdown.

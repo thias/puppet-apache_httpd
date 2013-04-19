@@ -41,7 +41,7 @@
 # Don't give away too much information about all the subcomponents
 # we are running.  Comment out this line if you don't mind remote sites
 # finding out what major optional modules you are running
-ServerTokens <%= servertokens %>
+ServerTokens <%= @servertokens %>
 
 #
 # ServerRoot: The top of the directory tree under which the server's
@@ -62,8 +62,8 @@ ServerRoot "/etc/httpd"
 # /etc/sysconfig/httpd must be set appropriately if this location is
 # changed.
 #
-<% if pidfile -%>
-PidFile <%= pidfile %>
+<% if @pidfile -%>
+PidFile <%= @pidfile %>
 <% else -%>
 PidFile run/httpd.pid
 <% end -%>
@@ -71,26 +71,26 @@ PidFile run/httpd.pid
 #
 # Timeout: The number of seconds before receives and sends time out.
 #
-Timeout <%= timeout_seconds %>
+Timeout <%= @timeout_seconds %>
 
 #
 # KeepAlive: Whether or not to allow persistent connections (more than
 # one request per connection). Set to "Off" to deactivate.
 #
-KeepAlive <%= keepalive %>
+KeepAlive <%= @keepalive %>
 
 #
 # MaxKeepAliveRequests: The maximum number of requests to allow
 # during a persistent connection. Set to 0 to allow an unlimited amount.
 # We recommend you leave this number high, for maximum performance.
 #
-MaxKeepAliveRequests <%= maxkeepaliverequests %>
+MaxKeepAliveRequests <%= @maxkeepaliverequests %>
 
 #
 # KeepAliveTimeout: Number of seconds to wait for the next request from the
 # same client on the same connection.
 #
-KeepAliveTimeout <%= keepalivetimeout %>
+KeepAliveTimeout <%= @keepalivetimeout %>
 
 ##
 ## Server-Pool Size Regulation (MPM specific)
@@ -104,12 +104,12 @@ KeepAliveTimeout <%= keepalivetimeout %>
 # MaxClients: maximum number of server processes allowed to start
 # MaxRequestsPerChild: maximum number of requests a server process serves
 <IfModule prefork.c>
-StartServers        <%= startservers %>
-MinSpareServers     <%= minspareservers %>
-MaxSpareServers     <%= maxspareservers %>
-ServerLimit         <%= serverlimit %>
-MaxClients          <%= maxclients %>
-MaxRequestsPerChild <%= maxrequestsperchild %>
+StartServers        <%= @startservers %>
+MinSpareServers     <%= @minspareservers %>
+MaxSpareServers     <%= @maxspareservers %>
+ServerLimit         <%= @serverlimit %>
+MaxClients          <%= @maxclients %>
+MaxRequestsPerChild <%= @maxrequestsperchild %>
 </IfModule>
 
 # worker MPM
@@ -120,13 +120,13 @@ MaxRequestsPerChild <%= maxrequestsperchild %>
 # ThreadsPerChild: constant number of worker threads in each server process
 # MaxRequestsPerChild: maximum number of requests a server process serves
 <IfModule worker.c>
-StartServers        <%= startservers %>
-ServerLimit         <%= serverlimit %>
-MaxClients          <%= maxclients %>
-MinSpareThreads     <%= minsparethreads %>
-MaxSpareThreads     <%= maxsparethreads %>
-ThreadsPerChild     <%= threadsperchild %>
-MaxRequestsPerChild <%= maxrequestsperchild %>
+StartServers        <%= @startservers %>
+ServerLimit         <%= @serverlimit %>
+MaxClients          <%= @maxclients %>
+MinSpareThreads     <%= @minsparethreads %>
+MaxSpareThreads     <%= @maxsparethreads %>
+ThreadsPerChild     <%= @threadsperchild %>
+MaxRequestsPerChild <%= @maxrequestsperchild %>
 </IfModule>
 
 #
@@ -138,7 +138,7 @@ MaxRequestsPerChild <%= maxrequestsperchild %>
 # prevent Apache from glomming onto all bound IP addresses (0.0.0.0)
 #
 #Listen 12.34.56.78:80
-<% listen.each do |i| -%>
+<% @listen.each do |i| -%>
 Listen <%= i %>
 <% end -%>
 
@@ -206,7 +206,7 @@ LoadModule log_config_module modules/mod_log_config.so
 #LoadModule disk_cache_module modules/mod_disk_cache.so
 #LoadModule cgi_module modules/mod_cgi.so
 #LoadModule version_module modules/mod_version.so
-<% modules.each do |mod| -%>
+<% @modules.each do |mod| -%>
 LoadModule <%= mod %>_module modules/mod_<%= mod %>.so
 <% end -%>
 
@@ -236,7 +236,7 @@ Include conf.d/*.conf
 # Off) when the "server-status" handler is called. The default is Off.
 #
 <IfModule mod_status.c>
-ExtendedStatus <%= extendedstatus %>
+ExtendedStatus <%= @extendedstatus %>
 </IfModule>
 
 #
@@ -251,8 +251,8 @@ ExtendedStatus <%= extendedstatus %>
 #  when the value of (unsigned)Group is above 60000; 
 #  don't use Group #-1 on these systems!
 #
-User <%= user %>
-Group <%= group %>
+User <%= @user %>
+Group <%= @group %>
 
 ### Section 2: 'Main' server configuration
 #
@@ -271,7 +271,7 @@ Group <%= group %>
 # e-mailed.  This address appears on some server-generated pages, such
 # as error documents.  e.g. admin@your-domain.com
 #
-ServerAdmin <%= serveradmin %>
+ServerAdmin <%= @serveradmin %>
 
 #
 # ServerName gives the name and port that the server uses to identify itself.
@@ -294,14 +294,14 @@ ServerAdmin <%= serveradmin %>
 # by the client.  When set "On", Apache will use the value of the
 # ServerName directive.
 #
-UseCanonicalName <%= usecanonicalname %>
+UseCanonicalName <%= @usecanonicalname %>
 
 #
 # DocumentRoot: The directory out of which you will serve your
 # documents. By default, all requests are taken from this directory, but
 # symbolic links and aliases may be used to point to other locations.
 #
-DocumentRoot "<%= documentroot %>"
+DocumentRoot "<%= @documentroot %>"
 
 #
 # Each directory to which Apache has access can be configured with respect
@@ -553,7 +553,7 @@ CustomLog logs/access_log combined
 # Set to "EMail" to also include a mailto: link to the ServerAdmin.
 # Set to one of:  On | Off | EMail
 #
-ServerSignature <%= serversignature %>
+ServerSignature <%= @serversignature %>
 
 #
 # Aliases: Add here as many aliases as you need (with no limit). The format is 
@@ -1036,7 +1036,7 @@ BrowserMatch "^Dreamweaver-WebDAV-SCM1" redirect-carefully
 # Use name-based virtual hosting.
 #
 #NameVirtualHost *:80
-<% namevirtualhost.each do |host| -%>
+<% @namevirtualhost.each do |host| -%>
 NameVirtualHost <%= host %>
 <% end -%>
 #
