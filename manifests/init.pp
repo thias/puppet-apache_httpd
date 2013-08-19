@@ -76,8 +76,7 @@ define apache_httpd (
         'prefork' => false,
     }
 
-    # Main package
-    package { 'httpd': ensure => installed }
+    include apache_httpd::install
 
     # Our own pre-configured file (disable nearly everything)
     file { '/etc/httpd/conf/httpd.conf':
