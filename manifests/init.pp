@@ -55,6 +55,7 @@ define apache_httpd (
     $user                   = 'apache',
     $group                  = 'apache',
     $serveradmin            = 'root@localhost',
+    $servername             = undef,
     $usecanonicalname       = 'Off',
     $documentroot           = '/var/www/html',
     $serversignature        = 'On',

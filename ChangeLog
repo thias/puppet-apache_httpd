@@ -1,3 +1,6 @@
+2013-10-01 - 0.4.2
+* Add global servername parameter.
+
 2013-04-19 - 0.4.1
 * Use @varname syntax in templates to silence puppet 3.2 warnings.
 
