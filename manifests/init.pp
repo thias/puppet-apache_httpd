@@ -134,7 +134,7 @@ class apache_httpd (
   if $ssl {
     package { 'mod_ssl':
       ensure => installed,
-      nofify => Service['httpd'],
+      notify => Service['httpd'],
     }
     # We disable everything in the file except loading the module + defaults
     # To listen on 443, the directive is required in an apache_httpd::file
