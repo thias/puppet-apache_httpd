@@ -75,7 +75,7 @@ class apache_httpd (
   # Our own pre-configured file (disable nearly everything)
   file { '/etc/httpd/conf/httpd.conf':
     require => Package['httpd'],
-    content => template('apache_httpd/conf/httpd.conf.erb'),
+    content => template("${module_name}/${httpd_version}/httpd.conf.erb"),
     notify  => Service['httpd'],
   }
 
@@ -113,14 +113,14 @@ class apache_httpd (
   # Tweak the sysconfig file
   file { '/etc/sysconfig/httpd':
     require => Package['httpd'],
-    content => template("${module_name}/etc/sysconfig.erb"),
+    content => template("${module_name}/${httpd_version}/sysconfig.erb"),
     notify  => Service['httpd'],
   }
 
   # Install the custom logrotate file
   file { '/etc/logrotate.d/httpd':
     require => Package['httpd'],
-    content => template("${module_name}/etc/logrotate.erb"),
+    content => template("${module_name}/logrotate.erb"),
   }
 
   # Main service
@@ -140,7 +140,7 @@ class apache_httpd (
     # To listen on 443, the directive is required in an apache_httpd::file
     apache_httpd::file { 'ssl.conf':
       require => Package['mod_ssl'],
-      content => template("${module_name}/conf.d/ssl.conf"),
+      content => template("${module_name}/${httpd_version}/ssl.conf"),
     }
   }
 
