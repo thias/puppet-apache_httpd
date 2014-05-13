@@ -1,4 +1,7 @@
 * Change apache_httpd from a definition to a class, it was about time.
+* Create params class for setting defaults, overridable with hiera.
+* Make the service_restart command configurable (reload by default).
+* Simplify the service by merging back the classes into the main class.
 
 2013-10-01 - 0.4.2
 * Add global servername parameter.
