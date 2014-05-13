@@ -6,7 +6,7 @@
 # available, but does not work with some modules (such as PHP).
 # The service must be stopped before changing this variable.
 #
-<% if @worker -%>
+<% if @mpm == 'worker' -%>
 HTTPD=/usr/sbin/httpd.worker
 <% else -%>
 #HTTPD=/usr/sbin/httpd.worker

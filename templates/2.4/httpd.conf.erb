@@ -39,7 +39,9 @@ ServerRoot "/etc/httpd"
 # prevent Apache from glomming onto all bound IP addresses.
 #
 #Listen 12.34.56.78:80
-Listen 80
+<% @listen.each do |i| -%>
+Listen <%= i %>
+<% end -%>
 
 #
 # Dynamic Shared Object (DSO) Support
@@ -63,8 +65,8 @@ Include conf.modules.d/*.conf
 # It is usually good practice to create a dedicated user and group for
 # running httpd, as with most system services.
 #
-User apache
-Group apache
+User <%= @user %>
+Group <%= @group %>
 
 # 'Main' server configuration
 #
@@ -83,7 +85,7 @@ Group apache
 # e-mailed.  This address appears on some server-generated pages, such
 # as error documents.  e.g. admin@your-domain.com
 #
-ServerAdmin root@localhost
+ServerAdmin <%= @serveradmin %>
 
 #
 # ServerName gives the name and port that the server uses to identify itself.
@@ -93,6 +95,9 @@ ServerAdmin root@localhost
 # If your host doesn't have a registered DNS name, enter its IP address here.
 #
 #ServerName www.example.com:80
+<% if @servername -%>
+ServerName <%= @servername %>
+<% end -%>
 
 #
 # Deny access to the entirety of your server's filesystem. You must
@@ -116,7 +121,7 @@ ServerAdmin root@localhost
 # documents. By default, all requests are taken from this directory, but
 # symbolic links and aliases may be used to point to other locations.
 #
-DocumentRoot "/var/www/html"
+DocumentRoot "<%= @documentroot %>"
 
 #
 # Relax access to content within /var/www.

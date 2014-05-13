@@ -15,12 +15,12 @@
 #  }
 #
 class apache_httpd (
-  $worker                 = false,
+  $mpm                    = 'prefork',
   $ssl                    = false,
   # Options for the sysconfig file
-  $options                = false,
-  $httpd_lang             = false,
-  $pidfile                = false,
+  $options                = undef,
+  $httpd_lang             = undef,
+  $pidfile                = undef,
   # Options for httpd.conf
   # These are not critical modules, but they are needed for welcome.conf
   $modules                = [
@@ -107,6 +107,14 @@ class apache_httpd (
     apache_httpd::file { 'welcome.conf':
       # Don't "absent" since the file comes back when httpd is updated
       content => "# Default welcome page disabled\n",
+    }
+  }
+
+  # Files only relevant with 2.4
+  if $httpd_version == '2.4' {
+    apache_httpd::file { '00-mpm.conf':
+      confd   => '/etc/httpd/conf.modules.d',
+      content => template("${module_name}/${httpd_version}/00-mpm.conf.erb"),
     }
   }
 

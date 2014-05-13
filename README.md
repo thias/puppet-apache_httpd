@@ -20,7 +20,7 @@ Sripped down instance running as the git user for the cgit cgi :
 
 ```puppet
 class { 'apache_httpd':
-  worker    => true,
+  mpm       => 'worker',
   modules   => [ 'mime', 'setenvif', 'alias', 'proxy', 'cgi' ],
   keepalive => 'On',
   user      => 'git',
@@ -99,5 +99,5 @@ class { '::apache_httpd':
 }
 ```
 
-And the `'worker'` title becomes the `worker => true` parameter.
+And the `'worker'` title becomes the `mpm => 'worker'` parameter.
 
