@@ -1,0 +1,8 @@
+# This file configures all the proxy modules:
+<% ['proxy','lbmethod_bybusyness','lbmethod_byrequests','lbmethod_bytraffic','lbmethod_heartbeat','proxy_ajp','proxy_balancer','proxy_connect','proxy_express','proxy_fcgi','proxy_fdpass','proxy_ftp','proxy_http','proxy_scgi'].each do |mod| -%>
+<% if @modules.include? mod -%>
+LoadModule <%= mod %>_module modules/mod_<%= mod %>.so
+<% else -%>
+#LoadModule <%= mod %>_module modules/mod_<%= mod %>.so
+<% end -%>
+<% end -%>

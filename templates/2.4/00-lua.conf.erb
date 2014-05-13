@@ -1,0 +1,5 @@
+<% if @modules.include? 'lua' -%>
+LoadModule lua_module modules/mod_lua.so
+<% else -%>
+#LoadModule lua_module modules/mod_lua.so
+<% end -%>

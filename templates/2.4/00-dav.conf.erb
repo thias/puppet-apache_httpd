@@ -1,0 +1,7 @@
+<% ['dav','dav_fs','dav_lock'].each do |mod| -%>
+<% if @modules.include? mod -%>
+LoadModule <%= mod %>_module modules/mod_<%= mod %>.so
+<% else -%>
+#LoadModule <%= mod %>_module modules/mod_<%= mod %>.so
+<% end -%>
+<% end -%>

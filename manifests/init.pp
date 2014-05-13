@@ -110,12 +110,27 @@ class apache_httpd (
     }
   }
 
-  # Files only relevant with 2.4
+  # Files only relevant with 2.4, and included by default
   if $httpd_version == '2.4' {
+    # TODO: 00-base.conf
+    apache_httpd::file { '00-dav.conf':
+      confd   => '/etc/httpd/conf.modules.d',
+      content => template("${module_name}/${httpd_version}/00-dav.conf.erb"),
+    }
+    apache_httpd::file { '00-lua.conf':
+      confd   => '/etc/httpd/conf.modules.d',
+      content => template("${module_name}/${httpd_version}/00-lua.conf.erb"),
+    }
     apache_httpd::file { '00-mpm.conf':
       confd   => '/etc/httpd/conf.modules.d',
       content => template("${module_name}/${httpd_version}/00-mpm.conf.erb"),
     }
+    apache_httpd::file { '00-proxy.conf':
+      confd   => '/etc/httpd/conf.modules.d',
+      content => template("${module_name}/${httpd_version}/00-proxy.conf.erb"),
+    }
+    # TODO: 00-systemd.conf
+    # TODO: 01-cgi.conf
   }
 
   # Tweak the sysconfig file
