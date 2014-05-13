@@ -101,7 +101,7 @@ class apache_httpd (
   # return 404 instead of 403.
   if $welcome {
     apache_httpd::file { 'welcome.conf':
-      source => "puppet:///modules/${module_name}/welcome.conf",
+      source => "puppet:///modules/${module_name}/${httpd_version}/welcome.conf",
     }
   } else {
     apache_httpd::file { 'welcome.conf':
