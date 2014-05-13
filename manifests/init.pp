@@ -67,6 +67,7 @@ class apache_httpd (
     'delaycompress',
   ],
   $httpd_version          = $::apache_httpd::httpd_version,
+  $service_restart        = $::apache_httpd::service_restart,
 ) inherits ::apache_httpd::params {
 
   include '::apache_httpd::install'
@@ -122,11 +123,25 @@ class apache_httpd (
     content => template("${module_name}/etc/logrotate.erb"),
   }
 
-  # We use classes with inheritence in order to perform service overrides
+  # Main service
+  service { 'httpd':
+    ensure    => running,
+    enable    => true,
+    restart   => $service_restart,
+    hasstatus => true,
+    require   => Package['httpd'],
+  }
   if $ssl {
-    include '::apache_httpd::service::ssl'
-  } else {
-    include '::apache_httpd::service::base'
+    package { 'mod_ssl':
+      ensure => installed,
+      nofify => Service['httpd'],
+    }
+    # We disable everything in the file except loading the module
+    # To listen on 443, the directive is required in an apache_httpd::file
+    apache_httpd::file { 'ssl.conf':
+      require => Package['mod_ssl'],
+      content => template("${module_name}/conf.d/ssl.conf"),
+    }
   }
 
 }

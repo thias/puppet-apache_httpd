@@ -14,9 +14,6 @@ change everything in ways which are typical for RHEL.
 This module disables TRACE and TRACK methods by default, which is best practice
 (using rewrite rules, so only when it is enabled).
 
-The `apache::service::` prefixed classes aren't meant to be used standalone,
-and are included as needed by the main class.
-
 ## Examples
 
 Sripped down instance running as the git user for the cgit cgi :
