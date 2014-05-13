@@ -136,11 +136,11 @@ class apache_httpd (
       ensure => installed,
       nofify => Service['httpd'],
     }
-    # We disable everything in the file except loading the module
+    # We disable everything in the file except loading the module + defaults
     # To listen on 443, the directive is required in an apache_httpd::file
     apache_httpd::file { 'ssl.conf':
+      source  => "puppet:///modules/${module_name}/${httpd_version}/ssl.conf",
       require => Package['mod_ssl'],
-      content => template("${module_name}/${httpd_version}/ssl.conf"),
     }
   }
 
