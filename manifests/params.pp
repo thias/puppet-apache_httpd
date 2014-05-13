@@ -1,4 +1,4 @@
-class apache_https::params {
+class apache_httpd::params {
 
   case $::operatingsystem {
     'RedHat','CentOS','Scientific': {
@@ -7,7 +7,7 @@ class apache_https::params {
       } else {
         $httpd_version = '2.2'
       }
-    },
+    }
   }
 
 }

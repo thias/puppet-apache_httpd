@@ -66,67 +66,68 @@ class apache_httpd (
     'sharedscripts',
     'delaycompress',
   ],
-) inherits '::apache_httpd::params' {
+  $httpd_version          = $::apache_httpd::httpd_version,
+) inherits ::apache_httpd::params {
 
   include '::apache_httpd::install'
 
-    # Our own pre-configured file (disable nearly everything)
-    file { '/etc/httpd/conf/httpd.conf':
-        require => Package['httpd'],
-        content => template('apache_httpd/conf/httpd.conf.erb'),
-        notify  => Service['httpd'],
-    }
+  # Our own pre-configured file (disable nearly everything)
+  file { '/etc/httpd/conf/httpd.conf':
+    require => Package['httpd'],
+    content => template('apache_httpd/conf/httpd.conf.erb'),
+    notify  => Service['httpd'],
+  }
 
-    # On RHEL5, this gets in the way... it should be configured from elsewhere
-    if $::operatingsystem == 'RedHat' and $::operatingsystemrelease < 6 {
-        # We can't 'ensure => absent' or it would reappear with updates
-        apache_httpd::file { 'proxy_ajp.conf':
-            source => "puppet:///modules/${module_name}/proxy_ajp.conf",
-        }
-    } else {
-        # Just in case we have updated from RHEL5
-        apache_httpd::file { 'proxy_ajp.conf':
-            ensure  => absent,
-        }
+  # On RHEL5, this gets in the way... it should be configured from elsewhere
+  if $::operatingsystem == 'RedHat' and $::operatingsystemrelease < 6 {
+    # We can't 'ensure => absent' or it would reappear with updates
+    apache_httpd::file { 'proxy_ajp.conf':
+      source => "puppet:///modules/${module_name}/proxy_ajp.conf",
     }
+  } else {
+    # Just in case we have updated from RHEL5
+    apache_httpd::file { 'proxy_ajp.conf':
+      ensure  => absent,
+    }
+  }
 
-    # Install extra file to disable TRACE and TRACK methods
-    apache_httpd::file { 'trace.inc':
-        source => "puppet:///modules/${module_name}/trace.inc",
-    }
+  # Install extra file to disable TRACE and TRACK methods
+  apache_httpd::file { 'trace.inc':
+    source => "puppet:///modules/${module_name}/trace.inc",
+  }
 
-    # Change the original welcome condition, since our default has the index
-    # return 404 instead of 403.
-    if $welcome {
-        apache_httpd::file { 'welcome.conf':
-            source => "puppet:///modules/${module_name}/welcome.conf",
-        }
-    } else {
-        apache_httpd::file { 'welcome.conf':
-            # Don't "absent" since the file comes back when httpd is updated
-            content => "# Default welcome page disabled\n",
-        }
+  # Change the original welcome condition, since our default has the index
+  # return 404 instead of 403.
+  if $welcome {
+    apache_httpd::file { 'welcome.conf':
+      source => "puppet:///modules/${module_name}/welcome.conf",
     }
+  } else {
+    apache_httpd::file { 'welcome.conf':
+      # Don't "absent" since the file comes back when httpd is updated
+      content => "# Default welcome page disabled\n",
+    }
+  }
 
-    # Tweak the sysconfig file
-    file { '/etc/sysconfig/httpd':
-        require => Package['httpd'],
-        content => template('apache_httpd/etc/sysconfig.erb'),
-        notify  => Service['httpd'],
-    }
+  # Tweak the sysconfig file
+  file { '/etc/sysconfig/httpd':
+    require => Package['httpd'],
+    content => template("${module_name}/etc/sysconfig.erb"),
+    notify  => Service['httpd'],
+  }
 
-    # Install the custom logrotate file
-    file { '/etc/logrotate.d/httpd':
-        require => Package['httpd'],
-        content => template('apache_httpd/etc/logrotate.erb'),
-    }
+  # Install the custom logrotate file
+  file { '/etc/logrotate.d/httpd':
+    require => Package['httpd'],
+    content => template("${module_name}/etc/logrotate.erb"),
+  }
 
-    # We use classes with inheritence in order to perform service overrides
-    if $ssl {
-        include apache_httpd::service::ssl
-    } else {
-        include apache_httpd::service::base
-    }
+  # We use classes with inheritence in order to perform service overrides
+  if $ssl {
+    include '::apache_httpd::service::ssl'
+  } else {
+    include '::apache_httpd::service::base'
+  }
 
 }
 
