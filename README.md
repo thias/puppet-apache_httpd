@@ -97,7 +97,7 @@ apache_httpd { 'prefork':
 Becomes (since `'prefork'` was the default) :
 
 ```puppet
-class { '::apache_httpd:
+class { '::apache_httpd':
   # Same parameters here...
 }
 ```
