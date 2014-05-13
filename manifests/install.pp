@@ -1,5 +1,10 @@
 # Class: apache_httpd::install
 #
-class apache_httpd::install {
-  package { 'httpd': ensure => installed }
+class apache_httpd::install (
+  $ensure = 'installed',
+) {
+
+  package { 'httpd': ensure => $ensure }
+
 }
+
