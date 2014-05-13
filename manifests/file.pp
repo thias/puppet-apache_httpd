@@ -17,34 +17,34 @@
 #
 # Sample Usage :
 #  apache_httpd::file { 'www.example.com.conf':
-#      source => 'puppet:///files/apache_httpd/www.example.com.conf',
+#    source => 'puppet:///files/apache_httpd/www.example.com.conf',
 #  }
 #  apache_httpd::file { 'foo.conf':
-#      content => "LoadModule foo_module modules/foo.so\nFooDirective\n",
+#    content => "LoadModule foo_module modules/foo.so\nFooDirective\n",
 #  }
 #  apache_httpd::file { 'mod_unwanted.conf':
-#      ensure => absent,
+#    ensure => absent,
 #  }
 #
 define apache_httpd::file (
-    $confd   = '/etc/httpd/conf.d',
-    $owner   = 'root',
-    $group   = 'root',
-    $mode    = '0644',
-    $source  = undef,
-    $content = undef,
-    $ensure  = undef
+  $ensure  = undef,
+  $confd   = '/etc/httpd/conf.d',
+  $owner   = 'root',
+  $group   = 'root',
+  $mode    = '0644',
+  $source  = undef,
+  $content = undef,
 ) {
-    file { "${confd}/${title}":
-        ensure  => $ensure,
-        owner   => $owner,
-        group   => $group,
-        mode    => $mode,
-        source  => $source,
-        content => $content,
-        notify  => Service['httpd'],
-        # For the default parent directory
-        require => Package['httpd'],
-    }
+  file { "${confd}/${title}":
+    ensure  => $ensure,
+    owner   => $owner,
+    group   => $group,
+    mode    => $mode,
+    source  => $source,
+    content => $content,
+    notify  => Service['httpd'],
+    # For the default parent directory
+    require => Package['httpd'],
+  }
 }
 
