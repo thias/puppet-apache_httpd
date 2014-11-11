@@ -1,5 +1,5 @@
 name 'thias-apache_httpd'
-version '0.4.2'
+version '0.4.3'
 source 'git://github.com/thias/puppet-apache_httpd'
 author 'Matthias Saou'
 license 'Apache 2.0'
