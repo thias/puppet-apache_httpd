@@ -66,8 +66,8 @@ class apache_httpd (
     'sharedscripts',
     'delaycompress',
   ],
-  $httpd_version          = $::apache_httpd::httpd_version,
-  $service_restart        = $::apache_httpd::service_restart,
+  $httpd_version          = $::apache_httpd::params::httpd_version,
+  $service_restart        = $::apache_httpd::params::service_restart,
 ) inherits ::apache_httpd::params {
 
   include '::apache_httpd::install'
