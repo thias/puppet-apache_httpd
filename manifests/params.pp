@@ -2,7 +2,7 @@ class apache_httpd::params {
 
   case $::operatingsystem {
     'RedHat','CentOS','Scientific': {
-      if $::operatingsystemrelease >= 7 {
+      if versioncmp($::operatingsystemrelease, '7') >= 0 {
         $httpd_version = '2.4'
         $service_restart = '/bin/systemctl reload httpd.service'
       } else {

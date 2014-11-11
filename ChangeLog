@@ -2,6 +2,7 @@
 * Create params class for setting defaults, overridable with hiera.
 * Make the service_restart command configurable (reload by default).
 * Simplify the service by merging back the classes into the main class.
+* Fix OS version comparison for CentOS 7.
 
 2013-10-01 - 0.4.2
 * Add global servername parameter.
