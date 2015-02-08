@@ -71,6 +71,9 @@ class apache_httpd (
 ) inherits ::apache_httpd::params {
 
   include '::apache_httpd::install'
+  class { '::apache_httpd::service':
+    service_restart => $service_restart
+  }
 
   # Our own pre-configured file (disable nearly everything)
   file { '/etc/httpd/conf/httpd.conf':
@@ -146,14 +149,6 @@ class apache_httpd (
     content => template("${module_name}/logrotate.erb"),
   }
 
-  # Main service
-  service { 'httpd':
-    ensure    => running,
-    enable    => true,
-    restart   => $service_restart,
-    hasstatus => true,
-    require   => Package['httpd'],
-  }
   if $ssl {
     package { 'mod_ssl':
       ensure => installed,
