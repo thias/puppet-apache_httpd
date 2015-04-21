@@ -80,7 +80,7 @@ class apache_httpd (
   }
 
   # On RHEL5, this gets in the way... it should be configured from elsewhere
-  if $::operatingsystem == 'RedHat' and $::operatingsystemrelease < 6 {
+  if $::operatingsystem == 'RedHat' and versioncmp($::operatingsystemrelease, '6') < 0 {
     # We can't 'ensure => absent' or it would reappear with updates
     apache_httpd::file { 'proxy_ajp.conf':
       source => "puppet:///modules/${module_name}/proxy_ajp.conf",
