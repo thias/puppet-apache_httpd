@@ -35,6 +35,10 @@ define apache_httpd::file (
   $source  = undef,
   $content = undef,
 ) {
+
+  include ::apache_httpd::install
+  include ::apache_httpd::service
+
   file { "${confd}/${title}":
     ensure  => $ensure,
     owner   => $owner,
