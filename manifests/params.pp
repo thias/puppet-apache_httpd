@@ -1,7 +1,8 @@
+#
 class apache_httpd::params {
 
-  case $::operatingsystem {
-    'RedHat','CentOS','Scientific': {
+  case $::osfamily {
+    'RedHat': {
       if versioncmp($::operatingsystemrelease, '7') >= 0 {
         $httpd_version = '2.4'
         $service_restart = '/bin/systemctl reload httpd.service'
